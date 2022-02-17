@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32126.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examen.API", "Examen.API\Examen.API.csproj", "{65331AF4-B79C-4F78-911B-C2FD2B7DF587}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.API", "Examen.API\Examen.API.csproj", "{65331AF4-B79C-4F78-911B-C2FD2B7DF587}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examen.Tranversal", "Examen.Tranversal\Examen.Tranversal.csproj", "{016A706A-C1CB-4EBD-AB3B-A48CB2D21908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.Tranversal", "Examen.Tranversal\Examen.Tranversal.csproj", "{016A706A-C1CB-4EBD-AB3B-A48CB2D21908}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examen.Entities", "Examen.Entities\Examen.Entities.csproj", "{76667DD8-0166-41B9-9075-B5EC4274D7CB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examen.Entity", "Examen.Entity\Examen.Entity.csproj", "{BF6973A4-5152-46A8-B21C-092F0F022B5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.Entity", "Examen.Entity\Examen.Entity.csproj", "{BF6973A4-5152-46A8-B21C-092F0F022B5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{016A706A-C1CB-4EBD-AB3B-A48CB2D21908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{016A706A-C1CB-4EBD-AB3B-A48CB2D21908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{016A706A-C1CB-4EBD-AB3B-A48CB2D21908}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76667DD8-0166-41B9-9075-B5EC4274D7CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76667DD8-0166-41B9-9075-B5EC4274D7CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76667DD8-0166-41B9-9075-B5EC4274D7CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76667DD8-0166-41B9-9075-B5EC4274D7CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF6973A4-5152-46A8-B21C-092F0F022B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF6973A4-5152-46A8-B21C-092F0F022B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF6973A4-5152-46A8-B21C-092F0F022B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU

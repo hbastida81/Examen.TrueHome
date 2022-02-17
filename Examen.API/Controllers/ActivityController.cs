@@ -1,4 +1,4 @@
-﻿using Examen.Entity;
+﻿using Examen.Entity.ActivityDto;
 using Examen.Tranversal.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
