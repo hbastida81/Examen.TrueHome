@@ -1,7 +1,11 @@
-﻿using Examen.Entity.ActivityDto;
+﻿using Examen.Entity;
+using Examen.Entity.ActivityDto;
+using Examen.Interfaces.Services;
 using Examen.Tranversal.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -9,29 +13,40 @@ using System.Threading.Tasks;
 
 namespace Examen.API.Controllers
 {
-	[Route("api/Activity")]
     [ApiController]
+    [Route("[controller]")]
     public class ActivityController : Controller
     {
-        [HttpGet]
-        [Route("getall")]
-        [ProducesResponseType(typeof(Response<ActivityDTO>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Response<IEnumerable<ActivityDTO>>>> GetAllSuppliersAsync()
+        private readonly ILogger<ActivityController> _logger;
+        private readonly IActivityServices service;
+
+        public ActivityController(ILogger<ActivityController> logger, IActivityServices service)
         {
-            var response = new Response<IEnumerable<ActivityDTO>>();
-
-            //response = await _catalogsApplication.GetAllSuppliersAsync();
-
-            switch (response.StatusCode)
+            _logger = logger;
+            this.service = service;
+        }
+        /// <summary>
+        /// Insertar una nueva actividad
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("add")]
+        public async Task<ActionResult<Activity>> Post(Activity entity)
+        {
+            Activity response = null;
+            try
             {
-                case HttpStatusCode.OK:
-                    return Ok(response);
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(response);
-                case HttpStatusCode.Unauthorized:
-                    return Unauthorized(response);
-                default:
-                    return StatusCode(StatusCodes.Status500InternalServerError, response);
+                if (ModelState.IsValid)
+                {
+                    response = await this.service.Add(entity);
+                }
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { status = 500, errors = ex.Message });
             }
         }
     }

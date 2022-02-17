@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.Tranversal", "Examen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.Entity", "Examen.Entity\Examen.Entity.csproj", "{BF6973A4-5152-46A8-B21C-092F0F022B5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examen.Interfaces", "Examen.Interfaces\Examen.Interfaces.csproj", "{28E7608D-8F5F-4827-9317-3EF2FEA000A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BF6973A4-5152-46A8-B21C-092F0F022B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF6973A4-5152-46A8-B21C-092F0F022B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF6973A4-5152-46A8-B21C-092F0F022B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28E7608D-8F5F-4827-9317-3EF2FEA000A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28E7608D-8F5F-4827-9317-3EF2FEA000A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E7608D-8F5F-4827-9317-3EF2FEA000A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28E7608D-8F5F-4827-9317-3EF2FEA000A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

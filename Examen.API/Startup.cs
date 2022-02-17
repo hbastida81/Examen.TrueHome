@@ -8,7 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Examen.API
@@ -26,6 +28,17 @@ namespace Examen.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+			//services.AddSingleton<IConnection, Connection>();
+			services.AddSingleton<IConfiguration>(Configuration);
+
+
+			//services.AddScoped<IActivityRepository, ActivityRepostirory>();
+			//services.AddScoped<IPropertyRepository, PropertyRepostirory>();
+
+
+			//services.AddScoped<IActivityServices, ActivityService>();
+			//Configuraciones de Swagger
+			services.AddSwaggerGen();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +49,9 @@ namespace Examen.API
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseSwagger();
+			app.UseSwaggerUI();
+
 			app.UseHttpsRedirection();
 
 			app.UseRouting();
@@ -45,6 +61,14 @@ namespace Examen.API
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+			});
+
+			//Configuración de middleware
+	
+			app.UseSwaggerUI(config =>
+			{ 
+				config.SwaggerEndpoint("/swagger/v1/swagger.json", "API SWAGGER!");
+				config.RoutePrefix = string.Empty;
 			});
 		}
 	}
