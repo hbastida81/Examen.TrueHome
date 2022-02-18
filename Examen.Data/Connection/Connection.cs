@@ -15,7 +15,7 @@ namespace Examen.Data.Connection
             _configuration = configuration;
         }
 
-        public IDbConnection GetExConnection
+        public IDbConnection GetConnection
         {
             get
             {
@@ -28,9 +28,9 @@ namespace Examen.Data.Connection
                 return sqlConnection;
             }
         }
-    }
+	}
     public interface IConnection
     {
-        IDbConnection GetExConnection { get; }
+        IDbConnection GetConnection { get; }
     }
 }

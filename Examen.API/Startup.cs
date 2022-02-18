@@ -1,3 +1,8 @@
+using Examen.Data;
+using Examen.Data.Connection;
+using Examen.Interfaces.DataServices;
+using Examen.Interfaces.Services;
+using Examen.Transversal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,15 +33,15 @@ namespace Examen.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-			//services.AddSingleton<IConnection, Connection>();
+			services.AddSingleton<IConnection, Connection>();
 			services.AddSingleton<IConfiguration>(Configuration);
 
 
-			//services.AddScoped<IActivityRepository, ActivityRepostirory>();
-			//services.AddScoped<IPropertyRepository, PropertyRepostirory>();
+			services.AddScoped<IActivityServicesDL, ActivityServices>();
+			//services.AddScoped<IPropertyServicesDL, PropertyRepostirory>();
 
 
-			//services.AddScoped<IActivityServices, ActivityService>();
+			services.AddScoped<IActivityServices, ActivityBusiness>();
 			//Configuraciones de Swagger
 			services.AddSwaggerGen();
 		}

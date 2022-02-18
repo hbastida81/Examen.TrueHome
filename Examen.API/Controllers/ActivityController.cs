@@ -1,19 +1,14 @@
 ﻿using Examen.Entity;
-using Examen.Entity.ActivityDto;
 using Examen.Interfaces.Services;
-using Examen.Tranversal.Common;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 
 namespace Examen.API.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class ActivityController : Controller
     {

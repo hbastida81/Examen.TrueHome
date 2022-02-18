@@ -17,32 +17,44 @@ namespace Examen.Transversal
 		}
 
 		/**
-		* <summary>Método que permite ingresar una entidad</summary>
+		* <summary>Método que permite agreegar</summary>
 		* <param name="entity">Corresponde a la entidad que se desea agregar</param>
 		*/
-		public async Task<TEntity> Add(TEntity entity)
+		public virtual async Task<TEntity> Add(TEntity entity)
 		{
 			return await this.baseservicesDL.Add(entity);
 		}
-
-		public Task Delete(int id)
+		/**
+         * <summary>Método que permite eliminar</summary>
+         * <param name="id">Corresponde al identificador de la entidad que se va a eliminar</param>
+         */
+		public virtual async Task Delete(int id)
 		{
-			throw new NotImplementedException();
+			await this.baseservicesDL.Delete(id);
 		}
-
-		public Task<IEnumerable<TEntity>> GetAll()
+		/**
+		* <summary>Método que obtiene todos los registros</summary>
+		*/
+		public virtual async Task<IEnumerable<TEntity>> GetAll()
 		{
-			throw new NotImplementedException();
+			return await this.baseservicesDL.GetAll();
 		}
-
-		public Task<TEntity> GetById(int id)
+		/**
+         * <summary>Método que permite obtener la información correspondiente a la entidad solicitada</summary>
+         * <param name="id">Corresponde al identificador de la entidad que se desea obtener</param>
+         * <returns>La información de la correspondiente ala  entidad</returns>
+         */
+		public virtual async Task<TEntity> GetById(int id)
 		{
-			throw new NotImplementedException();
+			return await this.baseservicesDL.GetById(id);
 		}
-
-		public Task<TEntity> Modify(TEntity entity)
+		/**
+         * <summary>Método que permite actualizar la información una entidad</summary>
+         * <param name="entity">Corresponde a la entidad que se desea modificar</param>
+         */
+		public virtual async Task<TEntity> Modify(TEntity entity)
 		{
-			throw new NotImplementedException();
+			return await this.baseservicesDL.Modify(entity);
 		}
 	}
 }

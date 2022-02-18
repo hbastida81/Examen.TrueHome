@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Examen.Data\Examen.Data.csproj" />
     <ProjectReference Include="..\Examen.Entity\Examen.Entity.csproj" />
     <ProjectReference Include="..\Examen.Interfaces\Examen.Interfaces.csproj" />
     <ProjectReference Include="..\Examen.Tranversal\Examen.Transversal.csproj" />

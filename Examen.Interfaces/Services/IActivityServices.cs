@@ -10,7 +10,7 @@ namespace Examen.Interfaces.Services
     {
         Task<Activity> Reschedule(Activity entity);
         Task<Activity> Cancel(Activity entity);
-        //Task<IEnumerable<Activity>> GetByFilters(Parameters parameters);
+        Task<IEnumerable<Activity>> GetByFilters(Parameters parameters);
         Task<Activity> Terminate(Activity entity);
 
     }
