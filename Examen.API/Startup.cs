@@ -5,18 +5,9 @@ using Examen.Interfaces.Services;
 using Examen.Transversal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Examen.API
 {
@@ -35,13 +26,10 @@ namespace Examen.API
 			services.AddControllers();
 			services.AddSingleton<IConnection, Connection>();
 			services.AddSingleton<IConfiguration>(Configuration);
-
-
 			services.AddScoped<IActivityServicesDL, ActivityServices>();
-			//services.AddScoped<IPropertyServicesDL, PropertyRepostirory>();
-
-
+			services.AddScoped<IPropertyServicesDL, PropertyServices>();
 			services.AddScoped<IActivityServices, ActivityBusiness>();
+
 			//Configuraciones de Swagger
 			services.AddSwaggerGen();
 		}
@@ -56,20 +44,20 @@ namespace Examen.API
 
 			app.UseSwagger();
 			app.UseSwaggerUI();
-
 			app.UseHttpsRedirection();
-
 			app.UseRouting();
-
 			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
 			});
 
 			//Configuración de middleware
-	
+			app.UseSwagger(config =>
+			{
+				config.SerializeAsV2 = true;
+			});
+
 			app.UseSwaggerUI(config =>
 			{ 
 				config.SwaggerEndpoint("/swagger/v1/swagger.json", "API SWAGGER!");

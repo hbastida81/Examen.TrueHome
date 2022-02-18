@@ -42,31 +42,164 @@ namespace Examen.Data
 			}
 		}
 
-		public Task<Activity> Cancel(Activity entity)
+		public async Task<Activity> Cancel(Activity entity)
 		{
-			throw new NotImplementedException();
+			using (IDbConnection db = _connection.GetConnection)
+			{
+				string query = @$"UPDATE activity set activity_status ='Cancelled', activity_updated_at =now() 
+                                  WHERE activity_id ={entity.Activity_Id}";
+
+				if (db.State == ConnectionState.Closed)
+					db.Open();
+
+				using (var tran = db.BeginTransaction())
+				{
+					try
+					{
+						var result = await db.ExecuteAsync(query, null, commandType: CommandType.Text, transaction: tran);
+						tran.Commit();
+						return new Activity { Activity_Id = entity.Activity_Id };
+					}
+					catch (Npgsql.NpgsqlException ex)
+					{
+						tran.Rollback();
+						throw new Exception(ex.Message);
+					}
+				}
+			}
 		}
 
-		public Task Delete(int id)
+		public async Task<int> Delete(int id)
 		{
-			throw new NotImplementedException();
+			using (IDbConnection db = _connection.GetConnection)
+			{
+				string query = @$"Delete public.activity WHERE activity_id = {id}";
+
+				if (db.State == ConnectionState.Closed)
+					db.Open();
+
+				using (var tran = db.BeginTransaction())
+				{
+					try
+					{
+						var result = await db.ExecuteAsync(query, null, commandType: CommandType.Text, transaction: tran);
+						tran.Commit();
+						return result;
+					}
+					catch (Npgsql.NpgsqlException ex)
+					{
+						tran.Rollback();
+						throw new Exception(ex.Message);
+					}
+				}
+			}
 		}
 
-		public Task<Activity> Exists(int property_id, DateTime schedule)
+		public async Task<Activity> Exists(int property_id, DateTime schedule)
 		{
-			throw new NotImplementedException();
+			string query = @$"select 
+                                a.activity_id ,
+                                a.property_id,
+                                a.activity_schedule,
+                                a.activity_title,
+                                a.activity_created_at,
+                                a.activity_updated_at,
+                                a.activity_status
+                            from activity a 
+                            where a.property_id ={property_id}
+                            and (to_timestamp('{schedule.ToString("yyyy-MM-dd HH:mm")}','YYYY-MM-DD HH24:MI')>= to_timestamp(to_char(a.activity_schedule,'YYYY-MM-DD HH24:MI'),'YYYY-MM-DD HH24:MI')
+                            and to_timestamp('{schedule.ToString("yyyy-MM-dd HH:mm")}','YYYY-MM-DD HH24:MI')<= to_timestamp(to_char(a.activity_schedule,'YYYY-MM-DD HH24:MI'),'YYYY-MM-DD HH24:MI')  + interval '1 hours');";
+
+			Activity result = null;
+			using (IDbConnection db = _connection.GetConnection)
+			{
+				if (db.State == ConnectionState.Closed)
+					db.Open();
+
+				result = await db.QueryFirstOrDefaultAsync<Activity>(query);
+
+				return result;
+			}
 		}
 
-		public Task<IEnumerable<Activity>> GetAll()
+		public async Task<IEnumerable<Activity>> GetAll()
 		{
-			throw new NotImplementedException();
+			string query = @"SELECT a.activity_id,	                            
+								a.activity_schedule,
+								a.activity_title,
+								a.activity_created_at,
+								a.activity_updated_at,
+								a.activity_status,
+								p.property_id ,	                            
+								p.property_title,
+								p.property_address,
+								p.property_description,
+								p.property_updated_at,
+								p.property_disabled_at,
+								p.property_status   
+			                                   FROM  activity a
+                        INNER JOIN property p on p.property_id =a.property_id";
+
+			IEnumerable<Activity> result = null;
+			using (IDbConnection db = _connection.GetConnection)
+			{
+				if (db.State == ConnectionState.Closed)
+					db.Open();
+
+				result = await db.QueryAsync<Activity>(query, null, commandType: CommandType.Text);
+				return result;
+			}
 		}
 
-		public Task<IEnumerable<Activity>> GetByFilters(Parameters parameters)
+		public async Task<IEnumerable<Activity>> GetByFilters(Parameters parameters)
 		{
-			throw new NotImplementedException();
-		}
+			string p1 = string.Empty;
+			string p2 = string.Empty;
+			if (parameters.StartDate.HasValue && parameters.EndDate.HasValue) // verificamos que traiga el dato
+			{
+				p1 += @$"AND (to_timestamp(to_char(a.activity_schedule,'YYYY-MM-DD HH24:MI'),'YYYY-MM-DD HH24:MI') >= to_timestamp('{parameters.StartDate.Value.ToString("yyyy-MM-dd HH:mm")}','YYYY-MM-DD HH24:MI')
+                        AND to_timestamp(to_char(a.activity_schedule,'YYYY-MM-DD HH24:MI'),'YYYY-MM-DD HH24:MI') <= to_timestamp('{parameters.EndDate.Value.ToString("yyyy-MM-dd HH:mm")}', 'YYYY-MM-DD HH24:MI') )";
+			}
 
+			if (!string.IsNullOrEmpty(parameters.Status))
+			{
+				p2 = $"AND a.activity_status ='{parameters.Status}' ";
+			}
+
+			var query = @$"SELECT 
+	                        a.activity_id ,	
+	                        a.activity_schedule,
+	                        a.activity_title,
+	                        a.activity_created_at,	
+	                        case 
+		                        when a.activity_status='Enabled' and a.activity_schedule>= now()  then
+			                        'Pendiente'
+		                        when a.activity_status='Enabled' and a.activity_schedule< now()  then
+			                        'Atrasada'
+		                        when a.activity_status='Done'  then
+			                        'Finalizada'
+		                        else 
+		                        a.activity_status 
+	                        end activity_status,	
+	                        p.property_id ,
+	                        p.property_title,
+	                        p.property_address	 
+                        FROM  activity a
+                        INNER JOIN property p on p.property_id =a.property_id
+                        WHERE 1=1 {p1} {p2} ";
+
+			IEnumerable<Activity> result = null;
+			using (IDbConnection db = _connection.GetConnection)
+			{
+				if (db.State == ConnectionState.Closed)
+					db.Open();
+
+				result = await db.QueryAsync<Activity>(query, null, commandType: CommandType.Text);
+
+				return result;
+			}
+
+		}
 		public async Task<Activity> GetById(int id)
 		{
 			string query = @$"SELECT 
@@ -90,24 +223,7 @@ namespace Examen.Data
 
 				result = await db.QueryFirstOrDefaultAsync<Activity>(query, null, commandType: CommandType.Text);
 				return result;
-				//result = await db.QueryAsync<Test.Entities.Activity, Test.Entities.Property, Activity>(
-				//   query,
-				//   (activity, property) =>
-				//   {
-				//       activity.Property = property;
-				//       return activity;
-				//   },
-				//   splitOn: "property_Id"
-				//   );
 
-
-				//if (result.AsList<Activity>().Count.Equals(0))
-				//{
-				//    return null;
-				//}
-				//var _activity = result.AsList<Activity>()[0];
-
-				//return _activity;
 
 			}
 
@@ -118,14 +234,58 @@ namespace Examen.Data
 			throw new NotImplementedException();
 		}
 
-		public Task<Activity> Reschedule(Activity entity)
+		public async Task<Activity> Reschedule(Activity entity)
 		{
-			throw new NotImplementedException();
+			using (IDbConnection db = _connection.GetConnection)
+			{
+				string query = @$"UPDATE activity set activity_schedule ='{entity.Activity_Schedule.ToString("yyyy-MM-dd HH:mm")}', activity_updated_at =now() 
+                                  WHERE activity_id ={entity.Activity_Id}";
+
+				if (db.State == ConnectionState.Closed)
+					db.Open();
+
+				using (var tran = db.BeginTransaction())
+				{
+					try
+					{
+						var result = await db.ExecuteAsync(query, null, commandType: CommandType.Text, transaction: tran);
+						tran.Commit();
+						return new Activity { Activity_Id = entity.Activity_Id };
+					}
+					catch (Npgsql.NpgsqlException ex)
+					{
+						tran.Rollback();
+						throw new Exception(ex.Message);
+					}
+				}
+			}
 		}
 
-		public Task<Activity> Terminate(Activity entity)
+		public async Task<Activity> Terminate(Activity entity)
 		{
-			throw new NotImplementedException();
+			using (IDbConnection db = _connection.GetConnection)
+			{
+				string query = @$"UPDATE activity set activity_status ='Done', activity_updated_at =now() 
+                                  WHERE activity_id ={entity.Activity_Id}";
+
+				if (db.State == ConnectionState.Closed)
+					db.Open();
+
+				using (var tran = db.BeginTransaction())
+				{
+					try
+					{
+						var result = await db.ExecuteAsync(query, null, commandType: CommandType.Text, transaction: tran);
+						tran.Commit();
+						return new Activity { Activity_Id = entity.Activity_Id };
+					}
+					catch (Npgsql.NpgsqlException ex)
+					{
+						tran.Rollback();
+						throw new Exception(ex.Message);
+					}
+				}
+			}
 		}
 	}
 }

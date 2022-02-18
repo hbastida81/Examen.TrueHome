@@ -1,5 +1,6 @@
 ﻿using Examen.Entity;
 using Examen.Interfaces.DataServices;
+using Examen.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,11 +29,11 @@ namespace Examen.Transversal
 			//validamos que la propiedad este activa
 			var property = await this.propertyServiceDL.GetById(entity.Property_Id);
 			if (property == null)
-				throw new Exception("Property invalid");
+				throw new Exception("Propiedad invalida");
 
 			if (property.Property_Status.Equals("Disabled", StringComparison.InvariantCultureIgnoreCase))
 			{
-				throw new Exception("Property disabled");
+				throw new Exception("Propiedad deshabilitada");
 			}
 
 			//No se pueden crear actividades en la misma fecha y hora (para la misma propiedad)
@@ -40,18 +41,18 @@ namespace Examen.Transversal
 			var activityExists = await this.activityServiceDL.Exists(entity.Property_Id, entity.Activity_Schedule);
 			if (activityExists != null)
 			{
-				throw new Exception("There is already an activity programmed for that time");
+				throw new Exception("No se pueden crear actividades en la misma fecha y hora!");
 			}
 
 
 			if (string.IsNullOrEmpty(entity.Activity_Title))
 			{
-				throw new Exception("Activity_Title is required");
+				throw new Exception("Activity_Title es requerida");
 			}
 
 			if (entity.Activity_Schedule.Equals(default(DateTime)))
 			{
-				throw new Exception("Activity_Schedule is required");
+				throw new Exception("Activity_Schedule es requerida");
 			}
 
 			var _activity = await base.Add(entity);
@@ -66,13 +67,13 @@ namespace Examen.Transversal
 			var activity = await base.GetById(entity.Activity_Id);
 			if (activity == null)
 			{
-				throw new Exception("The activity does not exist");
+				throw new Exception("La actividad no existe");
 			}
 
 
 			if (activity.Activity_Status.Equals("Cancelled"))
 			{
-				throw new Exception("It is not possible to cancel an activity previously canceled");
+				throw new Exception("No es posible cancelar una actividad previamente cancelada!");
 			}
 
 			await this.activityServiceDL.Cancel(entity);
@@ -92,12 +93,12 @@ namespace Examen.Transversal
 			var activity = await base.GetById(entity.Activity_Id);
 			if (activity == null)
 			{
-				throw new Exception("The activity does not exist");
+				throw new Exception("La actividad no existe");
 			}
 
 			if (activity.Activity_Status.Equals("Cancelled"))
 			{
-				throw new Exception("It is not possible to schedule the activity because it has been canceled");
+				throw new Exception("No es posible programar la actividad porque ha sido cancelada");
 			}
 
 
@@ -105,7 +106,7 @@ namespace Examen.Transversal
 			var activityExists = await this.activityServiceDL.Exists(activity.Property_Id, entity.Activity_Schedule);
 			if (activityExists != null)
 			{
-				throw new Exception("There is already an activity programmed for that time");
+				throw new Exception("Ya hay una actividad programada para esa hora");
 			}
 
 			await this.activityServiceDL.Reschedule(entity);
@@ -120,17 +121,20 @@ namespace Examen.Transversal
 			var activity = await base.GetById(entity.Activity_Id);
 			if (activity == null)
 			{
-				throw new Exception("The activity does not exist");
+				throw new Exception("La actividad no existe");
 			}
 
 
 			if (activity.Activity_Status.Equals("Cancelled"))
 			{
-				throw new Exception("It is not possible to terminate an activity previously canceled");
+				throw new Exception("No es posible dar por terminada una actividad previamente cancelada");
 			}
 
 			await this.activityServiceDL.Terminate(entity);
 			return await base.GetById(entity.Activity_Id);
 		}
+
+		public Task<int> Delete(int id) => throw new NotImplementedException();
+
 	}
 }

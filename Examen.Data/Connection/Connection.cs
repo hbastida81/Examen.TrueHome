@@ -23,7 +23,7 @@ namespace Examen.Data.Connection
                 if (sqlConnection == null)
                     return null;
 
-                sqlConnection.ConnectionString = _configuration.GetConnectionString("ExConnection");
+                sqlConnection.ConnectionString = _configuration.GetConnectionString("Connection-Postgres");
                 sqlConnection.Open();
                 return sqlConnection;
             }
