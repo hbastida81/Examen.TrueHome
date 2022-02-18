@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Examen.Entity\Examen.Entity.csproj" />
     <ProjectReference Include="..\Examen.Interfaces\Examen.Interfaces.csproj" />
-    <ProjectReference Include="..\Examen.Tranversal\Examen.Tranversal.csproj" />
+    <ProjectReference Include="..\Examen.Tranversal\Examen.Transversal.csproj" />
   </ItemGroup>
 
 

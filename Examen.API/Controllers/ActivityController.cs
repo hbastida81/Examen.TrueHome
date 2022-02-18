@@ -18,18 +18,19 @@ namespace Examen.API.Controllers
     public class ActivityController : Controller
     {
         private readonly ILogger<ActivityController> _logger;
-        private readonly IActivityServices service;
+        private readonly IActivityServices services;
 
-        public ActivityController(ILogger<ActivityController> logger, IActivityServices service)
+        public ActivityController(ILogger<ActivityController> logger, IActivityServices services)
         {
             _logger = logger;
-            this.service = service;
+            this.services = services;
         }
         /// <summary>
-        /// Insertar una nueva actividad
+        /// Este método inserta nueva actividad
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <remarks>Este es un remark para información ampliada</remarks>
+        /// <response code="200">Todo bien!</response>
+        /// <response code="400">Algo Fallo</response>
         [HttpPost]
         [Route("add")]
         public async Task<ActionResult<Activity>> Post(Activity entity)
@@ -39,10 +40,9 @@ namespace Examen.API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    response = await this.service.Add(entity);
+                    response = await this.services.Add(entity);
                 }
                 return Ok(response);
-
             }
             catch (Exception ex)
             {

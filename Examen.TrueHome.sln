@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.32126.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.API", "Examen.API\Examen.API.csproj", "{65331AF4-B79C-4F78-911B-C2FD2B7DF587}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.Tranversal", "Examen.Tranversal\Examen.Tranversal.csproj", "{016A706A-C1CB-4EBD-AB3B-A48CB2D21908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.Transversal", "Examen.Tranversal\Examen.Transversal.csproj", "{016A706A-C1CB-4EBD-AB3B-A48CB2D21908}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examen.Entity", "Examen.Entity\Examen.Entity.csproj", "{BF6973A4-5152-46A8-B21C-092F0F022B5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examen.Interfaces", "Examen.Interfaces\Examen.Interfaces.csproj", "{28E7608D-8F5F-4827-9317-3EF2FEA000A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examen.Data", "Examen.Data\Examen.Data.csproj", "{A943CD77-A318-4606-A48F-BFE1B17DDB39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{28E7608D-8F5F-4827-9317-3EF2FEA000A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E7608D-8F5F-4827-9317-3EF2FEA000A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E7608D-8F5F-4827-9317-3EF2FEA000A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A943CD77-A318-4606-A48F-BFE1B17DDB39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A943CD77-A318-4606-A48F-BFE1B17DDB39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A943CD77-A318-4606-A48F-BFE1B17DDB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A943CD77-A318-4606-A48F-BFE1B17DDB39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
